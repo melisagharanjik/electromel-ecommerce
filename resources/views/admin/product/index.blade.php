@@ -25,6 +25,7 @@
                     <thead>
                     <tr>
                         <th>ID</th>
+                        <th>Image</th>
                         <th>Title</th>
                         <th>Category</th>
                         <th>Price</th>
@@ -39,6 +40,12 @@
                         <tr>
 
                             <td>{{ $rs->id }}</td>
+
+                            <td>
+                                @if($rs->image)
+                                    <img src="{{ asset('uploads/'.$rs->image) }}" width="80">
+                                @endif
+                            </td>
 
                             <td>{{ $rs->title }}</td>
 

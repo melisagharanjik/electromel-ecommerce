@@ -25,6 +25,13 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        $imageName = null;
+
+        if ($request->hasFile('image')) {
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->move(public_path('uploads'), $imageName);
+        }
+
         Product::create([
             'category_id' => $request->category_id,
             'title' => $request->title,
@@ -32,6 +39,7 @@ class ProductController extends Controller
             'description' => $request->description,
             'price' => $request->price,
             'quantity' => $request->quantity,
+            'image' => $imageName,
             'status' => $request->status,
         ]);
 
@@ -51,6 +59,13 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
 
+        $imageName = $product->image;
+
+        if ($request->hasFile('image')) {
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->move(public_path('uploads'), $imageName);
+        }
+
         $product->update([
             'category_id' => $request->category_id,
             'title' => $request->title,
@@ -58,6 +73,7 @@ class ProductController extends Controller
             'description' => $request->description,
             'price' => $request->price,
             'quantity' => $request->quantity,
+            'image' => $imageName,
             'status' => $request->status,
         ]);
 

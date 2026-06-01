@@ -14,12 +14,15 @@
 
             <div class="card-body">
 
-                <form action="{{ route('admin.product.store') }}" method="post">
+                <form action="{{ route('admin.product.store') }}"
+                      method="post"
+                      enctype="multipart/form-data">
 
                     @csrf
 
                     <div class="mb-3">
                         <label class="form-label">Category</label>
+
                         <select name="category_id" class="form-control">
                             @foreach($categories as $category)
                                 <option value="{{ $category->id }}">
@@ -55,6 +58,11 @@
                     </div>
 
                     <div class="mb-3">
+                        <label class="form-label">Image</label>
+                        <input type="file" name="image" class="form-control">
+                    </div>
+
+                    <div class="mb-3">
                         <label class="form-label">Status</label>
                         <input type="number" name="status" value="1" class="form-control">
                     </div>
@@ -63,7 +71,8 @@
                         Save Product
                     </button>
 
-                    <a href="{{ route('admin.product.index') }}" class="btn btn-secondary">
+                    <a href="{{ route('admin.product.index') }}"
+                       class="btn btn-secondary">
                         Back
                     </a>
 
