@@ -1,35 +1,57 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Add Category</title>
-</head>
-<body>
+@extends('adminlte.master')
 
-<h1>Add Category</h1>
+@section('content')
 
-<form action="{{ route('admin.category.store') }}" method="post">
+    <div class="container-fluid">
 
-    @csrf
+        <h1 class="mb-3">Add Category</h1>
 
-    <p>Title</p>
-    <input type="text" name="title">
+        <div class="card">
 
-    <p>Keywords</p>
-    <input type="text" name="keywords">
+            <div class="card-header">
+                <h3 class="card-title">Category Form</h3>
+            </div>
 
-    <p>Description</p>
-    <textarea name="description"></textarea>
+            <div class="card-body">
 
-    <p>Status</p>
-    <input type="number" name="status" value="1">
+                <form action="{{ route('admin.category.store') }}" method="post">
 
-    <br><br>
+                    @csrf
 
-    <button type="submit">
-        Save Category
-    </button>
+                    <div class="mb-3">
+                        <label class="form-label">Title</label>
+                        <input type="text" name="title" class="form-control">
+                    </div>
 
-</form>
+                    <div class="mb-3">
+                        <label class="form-label">Keywords</label>
+                        <input type="text" name="keywords" class="form-control">
+                    </div>
 
-</body>
-</html>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea name="description" class="form-control"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Status</label>
+                        <input type="number" name="status" value="1" class="form-control">
+                    </div>
+
+                    <button type="submit" class="btn btn-success">
+                        Save Category
+                    </button>
+
+                    <a href="{{ route('admin.category.index') }}" class="btn btn-secondary">
+                        Back
+                    </a>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+@endsection

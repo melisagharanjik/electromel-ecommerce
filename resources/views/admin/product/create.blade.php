@@ -1,50 +1,78 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Add Product</title>
-</head>
-<body>
+@extends('adminlte.master')
 
-<h1>Add Product</h1>
+@section('content')
 
-<form action="{{ route('admin.product.store') }}" method="post">
+    <div class="container-fluid">
 
-    @csrf
+        <h1 class="mb-3">Add Product</h1>
 
-    <p>Category</p>
-    <select name="category_id">
-        @foreach($categories as $category)
-            <option value="{{ $category->id }}">
-                {{ $category->title }}
-            </option>
-        @endforeach
-    </select>
+        <div class="card">
 
-    <p>Title</p>
-    <input type="text" name="title">
+            <div class="card-header">
+                <h3 class="card-title">Product Form</h3>
+            </div>
 
-    <p>Keywords</p>
-    <input type="text" name="keywords">
+            <div class="card-body">
 
-    <p>Description</p>
-    <textarea name="description"></textarea>
+                <form action="{{ route('admin.product.store') }}" method="post">
 
-    <p>Price</p>
-    <input type="number" name="price">
+                    @csrf
 
-    <p>Quantity</p>
-    <input type="number" name="quantity">
+                    <div class="mb-3">
+                        <label class="form-label">Category</label>
+                        <select name="category_id" class="form-control">
+                            @foreach($categories as $category)
+                                <option value="{{ $category->id }}">
+                                    {{ $category->title }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
 
-    <p>Status</p>
-    <input type="number" name="status" value="1">
+                    <div class="mb-3">
+                        <label class="form-label">Title</label>
+                        <input type="text" name="title" class="form-control">
+                    </div>
 
-    <br><br>
+                    <div class="mb-3">
+                        <label class="form-label">Keywords</label>
+                        <input type="text" name="keywords" class="form-control">
+                    </div>
 
-    <button type="submit">
-        Save Product
-    </button>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea name="description" class="form-control"></textarea>
+                    </div>
 
-</form>
+                    <div class="mb-3">
+                        <label class="form-label">Price</label>
+                        <input type="number" name="price" class="form-control">
+                    </div>
 
-</body>
-</html>
+                    <div class="mb-3">
+                        <label class="form-label">Quantity</label>
+                        <input type="number" name="quantity" class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Status</label>
+                        <input type="number" name="status" value="1" class="form-control">
+                    </div>
+
+                    <button type="submit" class="btn btn-success">
+                        Save Product
+                    </button>
+
+                    <a href="{{ route('admin.product.index') }}" class="btn btn-secondary">
+                        Back
+                    </a>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+@endsection

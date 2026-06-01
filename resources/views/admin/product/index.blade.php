@@ -1,49 +1,78 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Product List</title>
-</head>
-<body>
+@extends('adminlte.master')
 
-<h1>Product List</h1>
+@section('content')
 
-<a href="{{ route('admin.product.create') }}">
-    Add Product
-</a>
+    <div class="container-fluid">
 
-<br><br>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1>Product List</h1>
 
-@foreach($data as $rs)
+            <a href="{{ route('admin.product.create') }}" class="btn btn-primary">
+                Add Product
+            </a>
+        </div>
 
-    {{ $rs->id }} -
-    {{ $rs->title }}
+        <div class="card">
 
-    <br>
+            <div class="card-header">
+                <h3 class="card-title">Products</h3>
+            </div>
 
-    Category:
-    {{ $rs->category->title }}
+            <div class="card-body">
 
-    <br>
+                <table class="table table-bordered table-striped">
 
-    Price:
-    {{ $rs->price }}
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
 
-    <br>
+                    <tbody>
 
-    <a href="{{ route('admin.product.edit', ['id' => $rs->id]) }}">
-        Edit
-    </a>
+                    @foreach($data as $rs)
 
-    |
+                        <tr>
 
-    <a href="{{ route('admin.product.delete', ['id' => $rs->id]) }}"
-       onclick="return confirm('Are you sure?')">
-        Delete
-    </a>
+                            <td>{{ $rs->id }}</td>
 
-    <br><br>
+                            <td>{{ $rs->title }}</td>
 
-@endforeach
+                            <td>{{ $rs->category->title }}</td>
 
-</body>
-</html>
+                            <td>{{ $rs->price }}</td>
+
+                            <td>
+
+                                <a href="{{ route('admin.product.edit', ['id' => $rs->id]) }}"
+                                   class="btn btn-warning btn-sm">
+                                    Edit
+                                </a>
+
+                                <a href="{{ route('admin.product.delete', ['id' => $rs->id]) }}"
+                                   class="btn btn-danger btn-sm"
+                                   onclick="return confirm('Are you sure?')">
+                                    Delete
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                    @endforeach
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+@endsection
