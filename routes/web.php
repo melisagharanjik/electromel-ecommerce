@@ -1,12 +1,28 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::get('/product/{id}', [HomeController::class, 'productDetail'])
+    ->name('product.detail');
+
+/*
+|--------------------------------------------------------------------------
+| Cart Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/cart', [CartController::class, 'index'])
+    ->name('cart.index');
+
+Route::get('/cart/add/{id}', [CartController::class, 'add'])
+    ->name('cart.add');
 
 /*
 |--------------------------------------------------------------------------

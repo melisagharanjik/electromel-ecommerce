@@ -136,7 +136,7 @@
                                     <h5>SUBTOTAL: $2940.00</h5>
                                 </div>
                                 <div class="cart-btns">
-                                    <a href="#">View Cart</a>
+                                    <a href="{{ route('cart.index') }}">View Cart</a>
                                     <a href="#">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
@@ -292,7 +292,7 @@
                                             </p>
 
                                             <h3 class="product-name">
-                                                <a href="#">
+                                                <a href="{{ route('product.detail', $product->id) }}">
                                                     {{ $product->title }}
                                                 </a>
                                             </h3>
@@ -304,10 +304,10 @@
                                         </div>
 
                                         <div class="add-to-cart">
-                                            <button class="add-to-cart-btn">
+                                            <a href="{{ route('cart.add', $product->id) }}" class="add-to-cart-btn">
                                                 <i class="fa fa-shopping-cart"></i>
                                                 Add to Cart
-                                            </button>
+                                            </a>
                                         </div>
 
                                     </div>
@@ -945,12 +945,12 @@
                         <h3 class="footer-title">Service</h3>
                         <ul class="footer-links">
                             <li><a href="#">My Account</a></li>
-                            <li><a href="#">View Cart</a></li>
+                            <li><a href="{{ route('cart.index') }}">View Cart</a></li>
                             <li><a href="#">Wishlist</a></li>
                             <li><a href="#">Track My Order</a></li>
                             <li><a href="#">Help</a></li>
                         </ul>
-                    </div>
+                    </div>ّ
                 </div>
             </div>
             <!-- /row -->
