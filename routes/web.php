@@ -10,6 +10,24 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 /*
 |--------------------------------------------------------------------------
+| Admin Dashboard Route
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/admin/dashboard', function () {
+
+    $categoryCount = \App\Models\Category::count();
+    $productCount = \App\Models\Product::count();
+
+    return view('admin.dashboard', compact(
+        'categoryCount',
+        'productCount'
+    ));
+
+})->middleware(['auth'])->name('admin.dashboard');
+
+/*
+|--------------------------------------------------------------------------
 | Admin Category Routes
 |--------------------------------------------------------------------------
 */

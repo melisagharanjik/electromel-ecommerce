@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
 {
@@ -62,6 +63,11 @@ class ProductController extends Controller
         $imageName = $product->image;
 
         if ($request->hasFile('image')) {
+
+            if ($product->image && File::exists(public_path('uploads/' . $product->image))) {
+                File::delete(public_path('uploads/' . $product->image));
+            }
+
             $imageName = time() . '.' . $request->image->extension();
             $request->image->move(public_path('uploads'), $imageName);
         }
@@ -83,6 +89,10 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
+
+        if ($product->image && File::exists(public_path('uploads/' . $product->image))) {
+            File::delete(public_path('uploads/' . $product->image));
+        }
 
         $product->delete();
 
