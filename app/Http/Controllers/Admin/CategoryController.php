@@ -31,4 +31,34 @@ class CategoryController extends Controller
 
         return redirect()->route('admin.category.index');
     }
+
+    public function edit($id)
+    {
+        $data = Category::findOrFail($id);
+
+        return view('admin.category.edit', compact('data'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $category = Category::findOrFail($id);
+
+        $category->update([
+            'title' => $request->title,
+            'keywords' => $request->keywords,
+            'description' => $request->description,
+            'status' => $request->status,
+        ]);
+
+        return redirect()->route('admin.category.index');
+    }
+
+    public function destroy($id)
+    {
+        $category = Category::findOrFail($id);
+
+        $category->delete();
+
+        return redirect()->route('admin.category.index');
+    }
 }
