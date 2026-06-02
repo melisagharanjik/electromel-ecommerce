@@ -36,4 +36,46 @@ class CartController extends Controller
 
         return view('front.cart', compact('cart'));
     }
+
+    public function remove($id)
+    {
+        $cart = session()->get('cart', []);
+
+        if (isset($cart[$id])) {
+            unset($cart[$id]);
+        }
+
+        session()->put('cart', $cart);
+
+        return redirect()->route('cart.index');
+    }
+    public function increase($id)
+    {
+        $cart = session()->get('cart', []);
+
+        if (isset($cart[$id])) {
+            $cart[$id]['quantity']++;
+        }
+
+        session()->put('cart', $cart);
+
+        return redirect()->route('cart.index');
+    }
+
+    public function decrease($id)
+    {
+        $cart = session()->get('cart', []);
+
+        if (isset($cart[$id])) {
+
+            if ($cart[$id]['quantity'] > 1) {
+                $cart[$id]['quantity']--;
+            }
+
+        }
+
+        session()->put('cart', $cart);
+
+        return redirect()->route('cart.index');
+    }
 }

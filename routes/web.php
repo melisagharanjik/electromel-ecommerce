@@ -24,6 +24,15 @@ Route::get('/cart', [CartController::class, 'index'])
 Route::get('/cart/add/{id}', [CartController::class, 'add'])
     ->name('cart.add');
 
+Route::get('/cart/remove/{id}', [CartController::class, 'remove'])
+    ->name('cart.remove');
+
+Route::get('/cart/increase/{id}', [CartController::class, 'increase'])
+    ->name('cart.increase');
+
+Route::get('/cart/decrease/{id}', [CartController::class, 'decrease'])
+    ->name('cart.decrease');
+
 /*
 |--------------------------------------------------------------------------
 | Admin Dashboard Route
