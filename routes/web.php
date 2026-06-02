@@ -33,6 +33,12 @@ Route::get('/cart/increase/{id}', [CartController::class, 'increase'])
 Route::get('/cart/decrease/{id}', [CartController::class, 'decrease'])
     ->name('cart.decrease');
 
+Route::get('/checkout', [CartController::class, 'checkout'])
+    ->name('checkout.index');
+
+Route::post('/checkout/store', [CartController::class, 'checkoutStore'])
+    ->name('checkout.store');
+
 /*
 |--------------------------------------------------------------------------
 | Admin Dashboard Route

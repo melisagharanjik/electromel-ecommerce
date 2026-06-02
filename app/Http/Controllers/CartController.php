@@ -49,6 +49,7 @@ class CartController extends Controller
 
         return redirect()->route('cart.index');
     }
+
     public function increase($id)
     {
         $cart = session()->get('cart', []);
@@ -67,15 +68,26 @@ class CartController extends Controller
         $cart = session()->get('cart', []);
 
         if (isset($cart[$id])) {
-
             if ($cart[$id]['quantity'] > 1) {
                 $cart[$id]['quantity']--;
             }
-
         }
 
         session()->put('cart', $cart);
 
         return redirect()->route('cart.index');
+    }
+
+    public function checkout()
+    {
+        $cart = session()->get('cart', []);
+
+        return view('front.checkout', compact('cart'));
+    }
+
+    public function checkoutStore(Request $request)
+    {
+        return redirect()->route('cart.index')
+            ->with('success', 'Order information received successfully.');
     }
 }

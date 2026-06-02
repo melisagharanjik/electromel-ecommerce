@@ -99,7 +99,12 @@
     <div class="text-end">
         <h3>Total: ${{ $total }}</h3>
     </div>
-    ```
+
+    <div class="text-end mt-3">
+        <a href="{{ route('checkout.index') }}" class="btn btn-success">
+            Checkout
+        </a>
+    </div>
 
 </div>
 
