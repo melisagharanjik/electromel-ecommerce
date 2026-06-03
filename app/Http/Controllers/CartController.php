@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Order;
+use App\Models\OrderItem;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -87,7 +89,30 @@ class CartController extends Controller
 
     public function checkoutStore(Request $request)
     {
-        return redirect()->route('cart.index')
-            ->with('success', 'Order information received successfully.');
+        $cart = session()->get('cart', []);
+
+        if (count($cart) == 0) {
+            return redirect()->route('cart.index');
+        }
+
+        $order = Order::create([
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'status' => 'Pending',
+        ]);
+
+        foreach ($cart as $item) {
+            OrderItem::create([
+                'order_id' => $order->id,
+                'product_id' => $item['id'],
+                'quantity' => $item['quantity'],
+                'price' => $item['price'],
+            ]);
+        }
+
+        session()->forget('cart');
+
+        return redirect()->route('home');
     }
 }

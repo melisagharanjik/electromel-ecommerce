@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\OrderController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -116,6 +117,18 @@ Route::post('/admin/product/update/{id}', [ProductController::class, 'update'])
 Route::get('/admin/product/delete/{id}', [ProductController::class, 'destroy'])
     ->middleware(['auth'])
     ->name('admin.product.delete');
+
+Route::get('/admin/order', [OrderController::class, 'index'])
+    ->middleware(['auth'])
+    ->name('admin.order.index');
+
+Route::get('/admin/order/show/{id}', [OrderController::class, 'show'])
+    ->middleware(['auth'])
+    ->name('admin.order.show');
+
+Route::post('/admin/order/status/{id}', [OrderController::class, 'updateStatus'])
+    ->middleware(['auth'])
+    ->name('admin.order.status');
 
 /*
 |--------------------------------------------------------------------------
