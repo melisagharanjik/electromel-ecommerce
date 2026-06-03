@@ -37,6 +37,13 @@
 
 </head>
 <body>
+@if(session('success'))
+    <div class="container mt-3">
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    </div>
+@endif
 <!-- HEADER -->
 <header>
     <!-- TOP HEADER -->
@@ -102,10 +109,17 @@
                     <div class="header-ctn">
                         <!-- Wishlist -->
                         <div>
-                            <a href="#">
+                            <a href="{{ route('wishlist.index') }}">
+
                                 <i class="fa fa-heart-o"></i>
                                 <span>Your Wishlist</span>
-                                <div class="qty">2</div>
+
+                                @php
+                                    $wishlist = session()->get('wishlist', []);
+                                @endphp
+
+                                <div class="qty">{{ count($wishlist) }}</div>
+
                             </a>
                         </div>
                         <!-- /Wishlist -->
@@ -339,13 +353,41 @@
                                                 ${{ $product->price }}
                                             </h4>
 
+                                            <div class="product-btns">
+
+                                                @php
+                                                    $wishlist = session()->get('wishlist', []);
+                                                @endphp
+
+                                                <a href="{{ route('wishlist.add', $product->id) }}" class="add-to-wishlist">
+                                                    @if(isset($wishlist[$product->id]))
+                                                        <i class="fa fa-heart" style="color: red;"></i>
+                                                        <span class="tooltipp">added to wishlist</span>
+                                                    @else
+                                                        <i class="fa fa-heart-o"></i>
+                                                        <span class="tooltipp">add to wishlist</span>
+                                                    @endif
+                                                </a>
+
+                                            </div>
+
                                         </div>
 
                                         <div class="add-to-cart">
-                                            <a href="{{ route('cart.add', $product->id) }}" class="add-to-cart-btn">
-                                                <i class="fa fa-shopping-cart"></i>
-                                                Add to Cart
-                                            </a>
+                                            @if($product->quantity > 0)
+
+                                                <a href="{{ route('cart.add', $product->id) }}" class="add-to-cart-btn">
+                                                    <i class="fa fa-shopping-cart"></i>
+                                                    Add to Cart
+                                                </a>
+
+                                            @else
+
+                                                <button class="add-to-cart-btn" disabled>
+                                                    Out Of Stock
+                                                </button>
+
+                                            @endif
                                         </div>
 
                                     </div>
@@ -469,9 +511,23 @@
                                             <i class="fa fa-star"></i>
                                         </div>
                                         <div class="product-btns">
-                                            <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-                                            <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                                            <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+
+                                            <a href="{{ route('wishlist.add', $product->id) }}"
+                                               class="add-to-wishlist">
+                                                <i class="fa fa-heart-o"></i>
+                                                <span class="tooltipp">add to wishlist</span>
+                                            </a>
+
+                                            <button class="add-to-compare">
+                                                <i class="fa fa-exchange"></i>
+                                                <span class="tooltipp">add to compare</span>
+                                            </button>
+
+                                            <button class="quick-view">
+                                                <i class="fa fa-eye"></i>
+                                                <span class="tooltipp">quick view</span>
+                                            </button>
+
                                         </div>
                                     </div>
                                     <div class="add-to-cart">

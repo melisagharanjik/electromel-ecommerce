@@ -26,6 +26,24 @@
                 </div>
             </div>
 
+            <div class="col-md-6">
+                <div class="card text-bg-warning mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Orders</h5>
+                        <h2>{{ $orderCount }}</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card text-bg-danger mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Pending Orders</h5>
+                        <h2>{{ $pendingOrders }}</h2>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
     </div>

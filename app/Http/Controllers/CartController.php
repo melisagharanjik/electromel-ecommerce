@@ -13,6 +13,10 @@ class CartController extends Controller
     {
         $product = Product::findOrFail($id);
 
+        if ($product->quantity <= 0) {
+            return redirect()->route('home');
+        }
+
         $cart = session()->get('cart', []);
 
         if (isset($cart[$id])) {
@@ -91,6 +95,12 @@ class CartController extends Controller
     {
         $cart = session()->get('cart', []);
 
+        $request->validate([
+            'name' => 'required',
+            'phone' => 'required',
+            'address' => 'required',
+        ]);
+
         if (count($cart) == 0) {
             return redirect()->route('cart.index');
         }
@@ -109,10 +119,17 @@ class CartController extends Controller
                 'quantity' => $item['quantity'],
                 'price' => $item['price'],
             ]);
+
+            $product = Product::find($item['id']);
+
+            if ($product) {
+                $product->decrement('quantity', $item['quantity']);
+            }
         }
 
         session()->forget('cart');
 
-        return redirect()->route('home');
+        return redirect()->route('home')
+            ->with('success', 'Your order has been placed successfully.');
     }
 }

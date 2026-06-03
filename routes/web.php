@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\WishlistController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -40,6 +41,15 @@ Route::get('/checkout', [CartController::class, 'checkout'])
 Route::post('/checkout/store', [CartController::class, 'checkoutStore'])
     ->name('checkout.store');
 
+Route::get('/wishlist', [WishlistController::class, 'index'])
+    ->name('wishlist.index');
+
+Route::get('/wishlist/add/{id}', [WishlistController::class, 'add'])
+    ->name('wishlist.add');
+
+Route::get('/wishlist/remove/{id}', [WishlistController::class, 'remove'])
+    ->name('wishlist.remove');
+
 /*
 |--------------------------------------------------------------------------
 | Admin Dashboard Route
@@ -51,9 +61,18 @@ Route::get('/admin/dashboard', function () {
     $categoryCount = \App\Models\Category::count();
     $productCount = \App\Models\Product::count();
 
+    $orderCount = \App\Models\Order::count();
+
+    $pendingOrders = \App\Models\Order::where(
+        'status',
+        'Pending'
+    )->count();
+
     return view('admin.dashboard', compact(
         'categoryCount',
-        'productCount'
+        'productCount',
+        'orderCount',
+        'pendingOrders'
     ));
 
 })->middleware(['auth'])->name('admin.dashboard');
