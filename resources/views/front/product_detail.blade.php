@@ -55,6 +55,21 @@
                 {{ $product->description }}
             </p>
 
+            @if($product->quantity > 0)
+
+                <a href="{{ route('cart.add', $product->id) }}"
+                   class="btn btn-success">
+                    Add To Cart
+                </a>
+
+            @else
+
+                <button class="btn btn-danger" disabled>
+                    Out Of Stock
+                </button>
+
+            @endif
+
         </div>
 
     </div>

@@ -74,13 +74,23 @@
                 <!-- SEARCH BAR -->
                 <div class="col-md-6">
                     <div class="header-search">
-                        <form>
-                            <select class="input-select">
+                        <form action="{{ route('home') }}" method="get">
+                            <select class="input-select" name="category_id">
                                 <option value="0">All Categories</option>
-                                <option value="1">Category 01</option>
-                                <option value="1">Category 02</option>
+
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}"
+                                            @if(request('category_id') == $category->id) selected @endif>
+                                        {{ $category->title }}
+                                    </option>
+                                @endforeach
                             </select>
-                            <input class="input" placeholder="Search here">
+
+                            <input class="input"
+                                   name="search"
+                                   placeholder="Search here"
+                                   value="{{ request('search') }}">
+
                             <button class="search-btn">Search</button>
                         </form>
                     </div>
@@ -313,6 +323,13 @@
                                     </div>
 
                                 @endforeach
+
+                                    <div class="row">
+                                        <div class="col-md-12 text-center">
+                                            {{ $products->links() }}
+                                        </div>
+                                    </div>
+
                             <div id="slick-nav-1" class="products-slick-nav"></div>
                         </div>
                         <!-- /tab -->
