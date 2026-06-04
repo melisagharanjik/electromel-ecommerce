@@ -101,11 +101,21 @@
                     @csrf
 
                     <select name="status" class="form-control mb-3">
-                        <option value="Pending" @if($order->status == 'Pending') selected @endif>Pending</option>
-                        <option value="Approved" @if($order->status == 'Approved') selected @endif>Approved</option>
-                        <option value="Shipped" @if($order->status == 'Shipped') selected @endif>Shipped</option>
-                        <option value="Completed" @if($order->status == 'Completed') selected @endif>Completed</option>
-                        <option value="Cancelled" @if($order->status == 'Cancelled') selected @endif>Cancelled</option>
+                        <option value="Pending" @if($order->status == 'Pending') selected @endif>
+                            Pending
+                        </option>
+
+                        <option value="Approved" @if($order->status == 'Approved') selected @endif>
+                            Approved
+                        </option>
+
+                        <option value="Completed" @if($order->status == 'Completed') selected @endif>
+                            Completed
+                        </option>
+
+                        <option value="Cancelled" @if($order->status == 'Cancelled') selected @endif>
+                            Cancelled
+                        </option>
                     </select>
 
                     <button type="submit" class="btn btn-success">

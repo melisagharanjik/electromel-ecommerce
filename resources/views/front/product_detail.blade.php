@@ -15,6 +15,12 @@
         Back to Home
     </a>
 
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <div class="row">
 
         <div class="col-md-6">
@@ -73,6 +79,112 @@
         </div>
 
     </div>
+
+    <hr class="mt-5">
+
+    <h3>Write a Review</h3>
+
+    @auth
+
+        <form action="{{ route('review.store', $product->id) }}" method="POST">
+
+            @csrf
+
+            <div class="mb-3">
+                <label>Rating (1-5)</label>
+
+                <select name="rating" class="form-control">
+                    <option value="5">5 Stars</option>
+                    <option value="4">4 Stars</option>
+                    <option value="3">3 Stars</option>
+                    <option value="2">2 Stars</option>
+                    <option value="1">1 Star</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label>Comment</label>
+
+                <textarea name="comment"
+                          class="form-control"
+                          rows="4"
+                          required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Submit Review
+            </button>
+
+        </form>
+
+    @else
+
+        <div class="alert alert-info">
+            Please login to submit a review.
+        </div>
+
+    @endauth
+
+    <hr class="mt-5">
+
+    <h3>Customer Reviews</h3>
+
+    @php
+        $approvedReviews = \App\Models\Review::where('product_id', $product->id)
+            ->where('status', 'Approved')
+            ->latest()
+            ->get();
+    @endphp
+
+    @php
+        $colors = [
+            '#FFE5EC',
+            '#FFF1D6',
+            '#E8F8E1',
+            '#E3F2FD',
+            '#F3E8FF',
+            '#FFFACD',
+        ];
+    @endphp
+
+    @forelse($approvedReviews as $index => $review)
+
+        <div class="card mb-3 border-0 shadow-sm"
+             style="background: {{ $colors[$index % count($colors)] }}; border-radius: 15px;">
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h5 class="mb-0">
+                        {{ $review->user->name ?? 'Customer' }}
+                    </h5>
+
+                    <div>
+                        @for($i = 1; $i <= 5; $i++)
+                            @if($i <= $review->rating)
+                                <span style="color: #f5b301; font-size: 18px;">★</span>
+                            @else
+                                <span style="color: #ccc; font-size: 18px;">★</span>
+                            @endif
+                        @endfor
+                    </div>
+                </div>
+
+                <p class="mb-2">
+                    {{ $review->comment }}
+                </p>
+
+                <small class="text-muted">
+                    {{ $review->created_at->format('d M Y') }}
+                </small>
+
+            </div>
+        </div>
+
+    @empty
+
+        <p>No approved reviews yet.</p>
+
+    @endforelse
 
 </div>
 

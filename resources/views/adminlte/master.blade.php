@@ -33,6 +33,12 @@
                     </li>
 
                     <li class="nav-item">
+                        <a href="{{ route('home') }}" class="nav-link">
+                            <p>Homepage</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
                         <a href="{{ route('admin.category.index') }}" class="nav-link">
                             <p>Categories</p>
                         </a>
@@ -47,6 +53,18 @@
                     <li class="nav-item">
                         <a href="{{ route('admin.order.index') }}" class="nav-link">
                             <p>Orders</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ route('admin.review.index') }}" class="nav-link">
+                            <p>Reviews</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ route('admin.customer.index') }}" class="nav-link">
+                            <p>Customers</p>
                         </a>
                     </li>
 

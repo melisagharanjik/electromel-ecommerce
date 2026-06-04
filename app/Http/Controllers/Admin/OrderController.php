@@ -9,9 +9,15 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $orders = Order::all();
+        $query = Order::query();
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        $orders = $query->latest()->get();
 
         return view('admin.order.index', compact('orders'));
     }
@@ -42,5 +48,19 @@ class OrderController extends Controller
             ->get();
 
         return view('front.my-orders', compact('orders'));
+    }
+    public function cancelOrder($id)
+    {
+        $order = Order::where('id', $id)
+            ->where('user_id', auth()->id())
+            ->firstOrFail();
+
+        if ($order->status == 'Pending') {
+            $order->update([
+                'status' => 'Cancelled',
+            ]);
+        }
+
+        return redirect()->route('my.orders');
     }
 }

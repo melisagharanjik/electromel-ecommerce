@@ -8,6 +8,9 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\Admin\ReviewController as AdminReviewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,9 +65,17 @@ Route::get('/wishlist/add/{id}', [WishlistController::class, 'add'])
 Route::get('/wishlist/remove/{id}', [WishlistController::class, 'remove'])
     ->name('wishlist.remove');
 
+Route::post('/review/store/{productId}', [ReviewController::class, 'store'])
+    ->middleware(['auth'])
+    ->name('review.store');
+
 Route::get('/my-orders', [OrderController::class, 'myOrders'])
     ->middleware(['auth'])
     ->name('my.orders');
+
+Route::get('/my-orders/cancel/{id}', [OrderController::class, 'cancelOrder'])
+    ->middleware(['auth'])
+    ->name('my.orders.cancel');
 
 /*
 |--------------------------------------------------------------------------
@@ -72,7 +83,7 @@ Route::get('/my-orders', [OrderController::class, 'myOrders'])
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::get('/admin/dashboard', function () {
 
@@ -162,6 +173,26 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/order/status/{id}', [OrderController::class, 'updateStatus'])
         ->name('admin.order.status');
 
+    Route::get('/admin/customers', [CustomerController::class, 'index'])
+        ->middleware(['auth', 'admin'])
+        ->name('admin.customer.index');
+
+    Route::get('/admin/reviews', [AdminReviewController::class, 'index'])
+        ->middleware(['auth', 'admin'])
+        ->name('admin.review.index');
+
+    Route::get('/admin/reviews/approve/{id}', [AdminReviewController::class, 'approve'])
+        ->middleware(['auth', 'admin'])
+        ->name('admin.review.approve');
+
+    Route::get('/admin/reviews/reject/{id}', [AdminReviewController::class, 'reject'])
+        ->middleware(['auth', 'admin'])
+        ->name('admin.review.reject');
+
+    Route::get('/admin/reviews/delete/{id}', [AdminReviewController::class, 'delete'])
+        ->middleware(['auth', 'admin'])
+        ->name('admin.review.delete');
+
 });
 
 /*
@@ -171,7 +202,13 @@ Route::middleware(['auth'])->group(function () {
 */
 
 Route::get('/dashboard', function () {
-    return redirect()->route('admin.dashboard');
+
+    if (auth()->user()->role == 'admin') {
+        return redirect()->route('admin.dashboard');
+    }
+
+    return redirect()->route('home');
+
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

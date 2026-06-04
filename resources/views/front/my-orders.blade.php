@@ -16,6 +16,7 @@
                     <th>Phone</th>
                     <th>Status</th>
                     <th>Date</th>
+                    <th>Action</th>
                 </tr>
                 </thead>
 
@@ -29,12 +30,23 @@
                         <td>{{ $order->phone }}</td>
                         <td>{{ $order->status }}</td>
                         <td>{{ $order->created_at }}</td>
+                        <td>
+                            @if($order->status == 'Pending')
+                                <a href="{{ route('my.orders.cancel', $order->id) }}"
+                                   class="btn btn-danger btn-sm"
+                                   onclick="return confirm('Are you sure you want to cancel this order?')">
+                                    Cancel
+                                </a>
+                            @else
+                                -
+                            @endif
+                        </td>
                     </tr>
 
                 @empty
 
                     <tr>
-                        <td colspan="5" class="text-center">
+                        <td colspan="6" class="text-center">
                             No Orders Found
                         </td>
                     </tr>

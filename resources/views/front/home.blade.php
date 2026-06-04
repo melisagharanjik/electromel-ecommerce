@@ -55,22 +55,57 @@
                 <li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
             </ul>
             <ul class="header-links pull-right">
+
                 <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
+
                 @auth
+
+                    @if(auth()->user()->role == 'admin')
+
+                        <li>
+                            <a href="{{ route('admin.dashboard') }}">
+                                <i class="fa fa-dashboard"></i> Admin Panel
+                            </a>
+                        </li>
+
+                    @else
+
+                        <li>
+                            <a href="{{ route('my.orders') }}">
+                                <i class="fa fa-user-o"></i> My Orders
+                            </a>
+                        </li>
+
+                    @endif
+
                     <li>
-                        <a href="{{ route('my.orders') }}">
-                            <i class="fa fa-user-o"></i> My Orders
-                        </a>
+                        <form action="{{ route('logout') }}" method="post" style="display:inline;">
+                            @csrf
+
+                            <button type="submit" style="background:none; border:none; color:#FFF;">
+                                <i class="fa fa-sign-out"></i> Logout
+                            </button>
+                        </form>
                     </li>
+
                 @endauth
 
                 @guest
+
                     <li>
                         <a href="{{ route('login') }}">
                             <i class="fa fa-user-o"></i> Login
                         </a>
                     </li>
+
+                    <li>
+                        <a href="{{ route('register') }}">
+                            <i class="fa fa-user-plus"></i> Register
+                        </a>
+                    </li>
+
                 @endguest
+
             </ul>
         </div>
     </div>
@@ -252,13 +287,19 @@
         <div id="responsive-nav">
             <!-- NAV -->
             <ul class="main-nav nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#">Hot Deals</a></li>
-                <li><a href="#">Categories</a></li>
-                <li><a href="#">Laptops</a></li>
-                <li><a href="#">Smartphones</a></li>
-                <li><a href="#">Cameras</a></li>
-                <li><a href="#">Accessories</a></li>
+
+                <li class="active">
+                    <a href="{{ route('home') }}">Home</a>
+                </li>
+
+                @foreach($categories as $category)
+                    <li>
+                        <a href="{{ route('home', ['category_id' => $category->id]) }}">
+                            {{ $category->title }}
+                        </a>
+                    </li>
+                @endforeach
+
             </ul>
             <!-- /NAV -->
         </div>
@@ -320,9 +361,7 @@
     </div>
     <!-- /container -->
 </div>
-<!-- /SECTION -->
 
-<!-- SECTION -->
 <div class="section">
     <!-- container -->
     <div class="container">
@@ -333,14 +372,6 @@
             <div class="col-md-12">
                 <div class="section-title">
                     <h3 class="title">New Products</h3>
-                    <div class="section-nav">
-                        <ul class="section-tab-nav tab-nav">
-                            <li class="active"><a data-toggle="tab" href="#tab1">Laptops</a></li>
-                            <li><a data-toggle="tab" href="#tab1">Smartphones</a></li>
-                            <li><a data-toggle="tab" href="#tab1">Cameras</a></li>
-                            <li><a data-toggle="tab" href="#tab1">Accessories</a></li>
-                        </ul>
-                    </div>
                 </div>
             </div>
             <!-- /section title -->
