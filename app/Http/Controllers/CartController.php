@@ -123,6 +123,7 @@ class CartController extends Controller
         }
 
         $order = Order::create([
+            'user_id' => auth()->id(),
             'name' => $request->name,
             'phone' => $request->phone,
             'address' => $request->address,

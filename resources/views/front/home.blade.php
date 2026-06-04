@@ -56,7 +56,21 @@
             </ul>
             <ul class="header-links pull-right">
                 <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
-                <li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
+                @auth
+                    <li>
+                        <a href="{{ route('my.orders') }}">
+                            <i class="fa fa-user-o"></i> My Orders
+                        </a>
+                    </li>
+                @endauth
+
+                @guest
+                    <li>
+                        <a href="{{ route('login') }}">
+                            <i class="fa fa-user-o"></i> Login
+                        </a>
+                    </li>
+                @endguest
             </ul>
         </div>
     </div>

@@ -35,4 +35,12 @@ class OrderController extends Controller
 
         return redirect()->route('admin.order.show', $id);
     }
+    public function myOrders()
+    {
+        $orders = Order::where('user_id', auth()->id())
+            ->latest()
+            ->get();
+
+        return view('front.my-orders', compact('orders'));
+    }
 }

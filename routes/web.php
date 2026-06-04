@@ -62,6 +62,10 @@ Route::get('/wishlist/add/{id}', [WishlistController::class, 'add'])
 Route::get('/wishlist/remove/{id}', [WishlistController::class, 'remove'])
     ->name('wishlist.remove');
 
+Route::get('/my-orders', [OrderController::class, 'myOrders'])
+    ->middleware(['auth'])
+    ->name('my.orders');
+
 /*
 |--------------------------------------------------------------------------
 | Admin Routes
