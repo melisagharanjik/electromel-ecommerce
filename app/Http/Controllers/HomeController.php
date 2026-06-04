@@ -24,6 +24,14 @@ class HomeController extends Controller
             $query->where('category_id', $request->category_id);
         }
 
+        if ($request->filled('min_price')) {
+            $query->where('price', '>=', $request->min_price);
+        }
+
+        if ($request->filled('max_price')) {
+            $query->where('price', '<=', $request->max_price);
+        }
+
         $products = $query->paginate(6)->appends($request->query());
 
         $categories = Category::all();

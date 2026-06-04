@@ -82,6 +82,7 @@
                 <div class="col-md-6">
                     <div class="header-search">
                         <form action="{{ route('home') }}" method="get">
+
                             <select class="input-select" name="category_id">
                                 <option value="0">All Categories</option>
 
@@ -98,7 +99,20 @@
                                    placeholder="Search here"
                                    value="{{ request('search') }}">
 
+                            <input class="input"
+                                   type="number"
+                                   name="min_price"
+                                   placeholder="Min Price"
+                                   value="{{ request('min_price') }}">
+
+                            <input class="input"
+                                   type="number"
+                                   name="max_price"
+                                   placeholder="Max Price"
+                                   value="{{ request('max_price') }}">
+
                             <button class="search-btn">Search</button>
+
                         </form>
                     </div>
                 </div>
@@ -192,6 +206,7 @@
                                     </a>
                                 </div>
 
+                            </div>
                             </div>
                         <!-- /Cart -->
 
@@ -323,6 +338,7 @@
                         <!-- tab -->
                         <div id="tab1" class="tab-pane active">
                             <div class="products-slick" data-nav="#slick-nav-1">
+                                @if($products->count() > 0)
                                 @foreach($products as $product)
 
                                     <div class="product">
@@ -393,6 +409,14 @@
                                     </div>
 
                                 @endforeach
+                                @else
+
+                                    <div class="col-md-12 text-center">
+                                        <h3>No products found</h3>
+                                        <p>Try another search or price range.</p>
+                                    </div>
+
+                                @endif
 
                                     <div class="row">
                                         <div class="col-md-12 text-center">
@@ -510,14 +534,19 @@
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
                                         </div>
-                                        <div class="product-btns">
+                                        @isset($product)
 
-                                            <a href="{{ route('wishlist.add', $product->id) }}"
-                                               class="add-to-wishlist">
-                                                <i class="fa fa-heart-o"></i>
-                                                <span class="tooltipp">add to wishlist</span>
-                                            </a>
+                                            <div class="product-btns">
 
+                                                <a href="{{ route('wishlist.add', $product->id) }}"
+                                                   class="add-to-wishlist">
+                                                    <i class="fa fa-heart-o"></i>
+                                                    <span class="tooltipp">add to wishlist</span>
+                                                </a>
+
+                                            </div>
+
+                                        @endisset
                                             <button class="add-to-compare">
                                                 <i class="fa fa-exchange"></i>
                                                 <span class="tooltipp">add to compare</span>

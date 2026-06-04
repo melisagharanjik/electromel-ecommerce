@@ -68,11 +68,21 @@ Route::get('/admin/dashboard', function () {
         'Pending'
     )->count();
 
+    $completedOrders = \App\Models\Order::where(
+        'status',
+        'Completed'
+    )->count();
+
+    $totalRevenue = \App\Models\OrderItem::selectRaw('SUM(price * quantity) as total')
+        ->value('total');
+
     return view('admin.dashboard', compact(
         'categoryCount',
         'productCount',
         'orderCount',
-        'pendingOrders'
+        'pendingOrders',
+        'completedOrders',
+        'totalRevenue'
     ));
 
 })->middleware(['auth'])->name('admin.dashboard');

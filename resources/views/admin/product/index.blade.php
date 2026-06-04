@@ -29,6 +29,8 @@
                         <th>Title</th>
                         <th>Category</th>
                         <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Stock Status</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -52,6 +54,16 @@
                             <td>{{ $rs->category->title }}</td>
 
                             <td>{{ $rs->price }}</td>
+
+                            <td>{{ $rs->quantity }}</td>
+
+                            <td>
+                                @if($rs->quantity > 0)
+                                    <span class="badge text-bg-success">In Stock</span>
+                                @else
+                                    <span class="badge text-bg-danger">Out Of Stock</span>
+                                @endif
+                            </td>
 
                             <td>
 

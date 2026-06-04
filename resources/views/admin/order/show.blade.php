@@ -4,7 +4,7 @@
 
     <div class="container-fluid">
 
-        <h1>Order Details</h1>
+        <h1 class="mb-4">Order Details</h1>
 
         <div class="card mb-4">
             <div class="card-header">
@@ -19,6 +19,10 @@
             </div>
         </div>
 
+        @php
+            $total = 0;
+        @endphp
+
         <div class="card mb-4">
             <div class="card-header">
                 <h3>Order Items</h3>
@@ -26,11 +30,12 @@
 
             <div class="card-body">
 
-                <table class="table table-bordered">
+                <table class="table table-bordered table-striped">
 
                     <thead>
                     <tr>
-                        <th>Product ID</th>
+                        <th>Image</th>
+                        <th>Product Name</th>
                         <th>Price</th>
                         <th>Quantity</th>
                         <th>Subtotal</th>
@@ -41,11 +46,34 @@
 
                     @foreach($items as $item)
 
+                        @php
+                            $subtotal = $item->price * $item->quantity;
+                            $total += $subtotal;
+                            $product = \App\Models\Product::find($item->product_id);
+                        @endphp
+
                         <tr>
-                            <td>{{ $item->product_id }}</td>
+                            <td width="120">
+                                @if($product && $product->image)
+                                    <img src="{{ asset('uploads/'.$product->image) }}" width="80">
+                                @else
+                                    No Image
+                                @endif
+                            </td>
+
+                            <td>
+                                @if($product)
+                                    {{ $product->title }}
+                                @else
+                                    Product deleted
+                                @endif
+                            </td>
+
                             <td>${{ $item->price }}</td>
+
                             <td>{{ $item->quantity }}</td>
-                            <td>${{ $item->price * $item->quantity }}</td>
+
+                            <td>${{ $subtotal }}</td>
                         </tr>
 
                     @endforeach
@@ -53,6 +81,10 @@
                     </tbody>
 
                 </table>
+
+                <div class="text-end">
+                    <h3>Total: ${{ $total }}</h3>
+                </div>
 
             </div>
         </div>

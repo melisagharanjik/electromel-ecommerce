@@ -20,7 +20,11 @@ class CartController extends Controller
         $cart = session()->get('cart', []);
 
         if (isset($cart[$id])) {
-            $cart[$id]['quantity']++;
+
+            if ($cart[$id]['quantity'] < $product->quantity) {
+                $cart[$id]['quantity']++;
+            }
+
         } else {
             $cart[$id] = [
                 'id' => $product->id,
@@ -61,7 +65,12 @@ class CartController extends Controller
         $cart = session()->get('cart', []);
 
         if (isset($cart[$id])) {
-            $cart[$id]['quantity']++;
+
+            $product = Product::find($id);
+
+            if ($product && $cart[$id]['quantity'] < $product->quantity) {
+                $cart[$id]['quantity']++;
+            }
         }
 
         session()->put('cart', $cart);
@@ -105,6 +114,14 @@ class CartController extends Controller
             return redirect()->route('cart.index');
         }
 
+        foreach ($cart as $item) {
+            $product = Product::find($item['id']);
+
+            if (!$product || $product->quantity < $item['quantity']) {
+                return redirect()->route('cart.index');
+            }
+        }
+
         $order = Order::create([
             'name' => $request->name,
             'phone' => $request->phone,
@@ -123,7 +140,13 @@ class CartController extends Controller
             $product = Product::find($item['id']);
 
             if ($product) {
-                $product->decrement('quantity', $item['quantity']);
+                $product->quantity = $product->quantity - $item['quantity'];
+
+                if ($product->quantity < 0) {
+                    $product->quantity = 0;
+                }
+
+                $product->save();
             }
         }
 

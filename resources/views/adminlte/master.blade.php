@@ -13,8 +13,9 @@
 <div class="app-wrapper">
 
     <aside class="app-sidebar bg-body-secondary shadow">
+
         <div class="sidebar-brand">
-            <a href="#" class="brand-link">
+            <a href="{{ route('admin.dashboard') }}" class="brand-link">
                 <span class="brand-text fw-light">
                     Laravel Admin
                 </span>
@@ -24,6 +25,12 @@
         <div class="sidebar-wrapper">
             <nav>
                 <ul class="nav sidebar-menu flex-column">
+
+                    <li class="nav-item">
+                        <a href="{{ route('admin.dashboard') }}" class="nav-link">
+                            <p>Dashboard</p>
+                        </a>
+                    </li>
 
                     <li class="nav-item">
                         <a href="{{ route('admin.category.index') }}" class="nav-link">
@@ -37,9 +44,36 @@
                         </a>
                     </li>
 
+                    <li class="nav-item">
+                        <a href="{{ route('admin.order.index') }}" class="nav-link">
+                            <p>Orders</p>
+                        </a>
+                    </li>
+
+                    @auth
+                        <li class="nav-item">
+                            <form action="{{ route('logout') }}" method="post">
+                                @csrf
+
+                                <button type="submit" class="nav-link btn btn-link text-start w-100">
+                                    <p>Logout</p>
+                                </button>
+                            </form>
+                        </li>
+                    @endauth
+
+                    @guest
+                        <li class="nav-item">
+                            <a href="{{ route('login') }}" class="nav-link">
+                                <p>Login</p>
+                            </a>
+                        </li>
+                    @endguest
+
                 </ul>
             </nav>
         </div>
+
     </aside>
 
     <main class="app-main p-4">
