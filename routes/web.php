@@ -5,9 +5,15 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\WishlistController;
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| Front Routes
+|--------------------------------------------------------------------------
+*/
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -41,6 +47,12 @@ Route::get('/checkout', [CartController::class, 'checkout'])
 Route::post('/checkout/store', [CartController::class, 'checkoutStore'])
     ->name('checkout.store');
 
+/*
+|--------------------------------------------------------------------------
+| Wishlist Routes
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/wishlist', [WishlistController::class, 'index'])
     ->name('wishlist.index');
 
@@ -52,112 +64,101 @@ Route::get('/wishlist/remove/{id}', [WishlistController::class, 'remove'])
 
 /*
 |--------------------------------------------------------------------------
-| Admin Dashboard Route
+| Admin Routes
 |--------------------------------------------------------------------------
 */
 
-Route::get('/admin/dashboard', function () {
+Route::middleware(['auth'])->group(function () {
 
-    $categoryCount = \App\Models\Category::count();
-    $productCount = \App\Models\Product::count();
+    Route::get('/admin/dashboard', function () {
 
-    $orderCount = \App\Models\Order::count();
+        $categoryCount = \App\Models\Category::count();
+        $productCount = \App\Models\Product::count();
 
-    $pendingOrders = \App\Models\Order::where(
-        'status',
-        'Pending'
-    )->count();
+        $orderCount = \App\Models\Order::count();
 
-    $completedOrders = \App\Models\Order::where(
-        'status',
-        'Completed'
-    )->count();
+        $pendingOrders = \App\Models\Order::where('status', 'Pending')->count();
 
-    $totalRevenue = \App\Models\OrderItem::selectRaw('SUM(price * quantity) as total')
-        ->value('total');
+        $completedOrders = \App\Models\Order::where('status', 'Completed')->count();
 
-    return view('admin.dashboard', compact(
-        'categoryCount',
-        'productCount',
-        'orderCount',
-        'pendingOrders',
-        'completedOrders',
-        'totalRevenue'
-    ));
+        $totalRevenue = \App\Models\OrderItem::selectRaw('SUM(price * quantity) as total')
+            ->value('total');
 
-})->middleware(['auth'])->name('admin.dashboard');
+        return view('admin.dashboard', compact(
+            'categoryCount',
+            'productCount',
+            'orderCount',
+            'pendingOrders',
+            'completedOrders',
+            'totalRevenue'
+        ));
 
-/*
-|--------------------------------------------------------------------------
-| Admin Category Routes
-|--------------------------------------------------------------------------
-*/
+    })->name('admin.dashboard');
 
-Route::get('/admin/category', [CategoryController::class, 'index'])
-    ->middleware(['auth'])
-    ->name('admin.category.index');
+    /*
+    |--------------------------------------------------------------------------
+    | Admin Category Routes
+    |--------------------------------------------------------------------------
+    */
 
-Route::get('/admin/category/create', [CategoryController::class, 'create'])
-    ->middleware(['auth'])
-    ->name('admin.category.create');
+    Route::get('/admin/category', [CategoryController::class, 'index'])
+        ->name('admin.category.index');
 
-Route::post('/admin/category/store', [CategoryController::class, 'store'])
-    ->middleware(['auth'])
-    ->name('admin.category.store');
+    Route::get('/admin/category/create', [CategoryController::class, 'create'])
+        ->name('admin.category.create');
 
-Route::get('/admin/category/edit/{id}', [CategoryController::class, 'edit'])
-    ->middleware(['auth'])
-    ->name('admin.category.edit');
+    Route::post('/admin/category/store', [CategoryController::class, 'store'])
+        ->name('admin.category.store');
 
-Route::post('/admin/category/update/{id}', [CategoryController::class, 'update'])
-    ->middleware(['auth'])
-    ->name('admin.category.update');
+    Route::get('/admin/category/edit/{id}', [CategoryController::class, 'edit'])
+        ->name('admin.category.edit');
 
-Route::get('/admin/category/delete/{id}', [CategoryController::class, 'destroy'])
-    ->middleware(['auth'])
-    ->name('admin.category.delete');
+    Route::post('/admin/category/update/{id}', [CategoryController::class, 'update'])
+        ->name('admin.category.update');
 
-/*
-|--------------------------------------------------------------------------
-| Admin Product Routes
-|--------------------------------------------------------------------------
-*/
+    Route::get('/admin/category/delete/{id}', [CategoryController::class, 'destroy'])
+        ->name('admin.category.delete');
 
-Route::get('/admin/product', [ProductController::class, 'index'])
-    ->middleware(['auth'])
-    ->name('admin.product.index');
+    /*
+    |--------------------------------------------------------------------------
+    | Admin Product Routes
+    |--------------------------------------------------------------------------
+    */
 
-Route::get('/admin/product/create', [ProductController::class, 'create'])
-    ->middleware(['auth'])
-    ->name('admin.product.create');
+    Route::get('/admin/product', [ProductController::class, 'index'])
+        ->name('admin.product.index');
 
-Route::post('/admin/product/store', [ProductController::class, 'store'])
-    ->middleware(['auth'])
-    ->name('admin.product.store');
+    Route::get('/admin/product/create', [ProductController::class, 'create'])
+        ->name('admin.product.create');
 
-Route::get('/admin/product/edit/{id}', [ProductController::class, 'edit'])
-    ->middleware(['auth'])
-    ->name('admin.product.edit');
+    Route::post('/admin/product/store', [ProductController::class, 'store'])
+        ->name('admin.product.store');
 
-Route::post('/admin/product/update/{id}', [ProductController::class, 'update'])
-    ->middleware(['auth'])
-    ->name('admin.product.update');
+    Route::get('/admin/product/edit/{id}', [ProductController::class, 'edit'])
+        ->name('admin.product.edit');
 
-Route::get('/admin/product/delete/{id}', [ProductController::class, 'destroy'])
-    ->middleware(['auth'])
-    ->name('admin.product.delete');
+    Route::post('/admin/product/update/{id}', [ProductController::class, 'update'])
+        ->name('admin.product.update');
 
-Route::get('/admin/order', [OrderController::class, 'index'])
-    ->middleware(['auth'])
-    ->name('admin.order.index');
+    Route::get('/admin/product/delete/{id}', [ProductController::class, 'destroy'])
+        ->name('admin.product.delete');
 
-Route::get('/admin/order/show/{id}', [OrderController::class, 'show'])
-    ->middleware(['auth'])
-    ->name('admin.order.show');
+    /*
+    |--------------------------------------------------------------------------
+    | Admin Order Routes
+    |--------------------------------------------------------------------------
+    */
 
-Route::post('/admin/order/status/{id}', [OrderController::class, 'updateStatus'])
-    ->middleware(['auth'])
-    ->name('admin.order.status');
+    Route::get('/admin/order', [OrderController::class, 'index'])
+        ->name('admin.order.index');
+
+    Route::get('/admin/order/show/{id}', [OrderController::class, 'show'])
+        ->name('admin.order.show');
+
+    Route::post('/admin/order/status/{id}', [OrderController::class, 'updateStatus'])
+        ->name('admin.order.status');
+
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -166,13 +167,18 @@ Route::post('/admin/order/status/{id}', [OrderController::class, 'updateStatus']
 */
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return redirect()->route('admin.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile', [ProfileController::class, 'edit'])
+        ->name('profile.edit');
+
+    Route::patch('/profile', [ProfileController::class, 'update'])
+        ->name('profile.update');
+
+    Route::delete('/profile', [ProfileController::class, 'destroy'])
+        ->name('profile.destroy');
 });
 
 require __DIR__.'/auth.php';
