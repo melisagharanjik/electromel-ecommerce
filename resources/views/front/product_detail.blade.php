@@ -180,6 +180,7 @@
             </div>
         </div>
 
+
     @empty
 
         <p>No approved reviews yet.</p>
