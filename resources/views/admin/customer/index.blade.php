@@ -21,6 +21,7 @@
                         <th>Name</th>
                         <th>Email</th>
                         <th>Role</th>
+                        <th>Actions</th>
                         <th>Orders Count</th>
                         <th>Total Spent</th>
                         <th>VIP Status</th>
@@ -30,7 +31,7 @@
 
                     <tbody>
 
-                    @foreach($customers as $customer)
+                    @foreach($users as $customer)
 
                         @php
                             $ordersCount = $customer->orders->count();
@@ -49,6 +50,35 @@
                             <td>{{ $customer->name }}</td>
                             <td>{{ $customer->email }}</td>
                             <td>{{ $customer->role }}</td>
+                            <td>
+
+                            <td>
+
+                                @if($customer->email == 'gharanjikmelissa49@gmail.com')
+
+                                    <span class="badge text-bg-danger">
+                                          Main Admin
+                                    </span>
+
+                                @elseif($customer->role == 'customer')
+
+                                    <a href="{{ route('admin.user.makeAdmin', $customer->id) }}"
+                                       class="btn btn-success btn-sm">
+                                        Make Admin
+                                    </a>
+
+                                @else
+
+                                    <a href="{{ route('admin.user.makeCustomer', $customer->id) }}"
+                                       class="btn btn-warning btn-sm">
+                                        Make Customer
+                                    </a>
+
+                                @endif
+
+                            </td>
+
+                            </td>
                             <td>{{ $ordersCount }}</td>
                             <td>${{ $totalSpent }}</td>
 

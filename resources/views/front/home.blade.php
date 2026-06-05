@@ -160,6 +160,26 @@
                                    placeholder="Max Price"
                                    value="{{ request('max_price') }}">
 
+                            <select class="input" name="sort">
+                                <option value="">Sort By</option>
+
+                                <option value="newest"
+                                    {{ request('sort') == 'newest' ? 'selected' : '' }}>
+                                    Newest
+                                </option>
+
+                                <option value="price_low"
+                                    {{ request('sort') == 'price_low' ? 'selected' : '' }}>
+                                    Price Low to High
+                                </option>
+
+                                <option value="price_high"
+                                    {{ request('sort') == 'price_high' ? 'selected' : '' }}>
+                                    Price High to Low
+                                </option>
+
+                            </select>
+
                             <button class="search-btn">Search</button>
 
                         </form>
@@ -291,6 +311,7 @@
                 <li class="active">
                     <a href="{{ route('home') }}">Home</a>
                 </li>
+
 
                 @foreach($categories as $category)
                     <li>
@@ -454,6 +475,7 @@
                                     </div>
 
                                 @endforeach
+
                                 @else
 
                                     <div class="col-md-12 text-center">
@@ -463,13 +485,8 @@
 
                                 @endif
 
-                                    <div class="row">
-                                        <div class="col-md-12 text-center">
-                                            {{ $products->links() }}
-                                        </div>
-                                    </div>
+                                    <div id="slick-nav-1" class="products-slick-nav"></div>
 
-                            <div id="slick-nav-1" class="products-slick-nav"></div>
                         </div>
                         <!-- /tab -->
                     </div>
@@ -482,6 +499,36 @@
     <!-- /container -->
 </div>
 <!-- /SECTION -->
+
+    @if($products->hasPages())
+        <div class="section" style="position: relative; z-index: 9999;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+
+                        @if($products->currentPage() > 1)
+                            <a href="{{ route('home', array_merge(request()->query(), ['page' => $products->currentPage() - 1])) }}"
+                               class="btn btn-danger">
+                                Previous
+                            </a>
+                        @endif
+
+                        <span style="margin:0 15px;">
+                        Page {{ $products->currentPage() }} of {{ $products->lastPage() }}
+                    </span>
+
+                        @if($products->currentPage() < $products->lastPage())
+                            <a href="{{ route('home', array_merge(request()->query(), ['page' => $products->currentPage() + 1])) }}"
+                               class="btn btn-danger">
+                                Next
+                            </a>
+                        @endif
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 
 <!-- FOOTER -->
 <footer id="footer">
@@ -523,9 +570,9 @@
                         <h3 class="footer-title">Information</h3>
                         <ul class="footer-links">
                             <li><a href="#">About Us</a></li>
-                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="{{ route('faq') }}">FAQ</a></li>
+                            <li><a href="{{ route('contact') }}">Contact Us</a></li>
                             <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Orders and Returns</a></li>
                             <li><a href="#">Terms & Conditions</a></li>
                         </ul>
                     </div>

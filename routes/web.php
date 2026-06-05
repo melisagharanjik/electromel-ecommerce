@@ -11,6 +11,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\Admin\ReviewController as AdminReviewController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\Admin\ContactMessageController;
+use App\Http\Controllers\Admin\FaqController;
+use App\Models\Faq;
 
 /*
 |--------------------------------------------------------------------------
@@ -77,6 +81,18 @@ Route::get('/my-orders/cancel/{id}', [OrderController::class, 'cancelOrder'])
     ->middleware(['auth'])
     ->name('my.orders.cancel');
 
+Route::get('/contact', [ContactController::class, 'index'])
+    ->name('contact');
+
+Route::post('/contact/store', [ContactController::class, 'store'])
+    ->name('contact.store');
+
+Route::get('/faq', function () {
+    $faqs = Faq::latest()->get();
+
+    return view('front.faq', compact('faqs'));
+})->name('faq');
+
 /*
 |--------------------------------------------------------------------------
 | Admin Routes
@@ -109,6 +125,38 @@ Route::middleware(['auth', 'admin'])->group(function () {
         ));
 
     })->name('admin.dashboard');
+
+    Route::get('/admin/contact-messages', [ContactMessageController::class, 'index'])
+        ->middleware(['auth', 'admin'])
+        ->name('admin.contact-message.index');
+
+    Route::get('/admin/contact-messages/delete/{id}', [ContactMessageController::class, 'delete'])
+        ->middleware(['auth', 'admin'])
+        ->name('admin.contact-message.delete');
+
+    Route::get('/admin/faqs', [FaqController::class, 'index'])
+        ->middleware(['auth', 'admin'])
+        ->name('admin.faq.index');
+
+    Route::get('/admin/faqs/create', [FaqController::class, 'create'])
+        ->middleware(['auth', 'admin'])
+        ->name('admin.faq.create');
+
+    Route::post('/admin/faqs/store', [FaqController::class, 'store'])
+        ->middleware(['auth', 'admin'])
+        ->name('admin.faq.store');
+
+    Route::get('/admin/faqs/edit/{id}', [FaqController::class, 'edit'])
+        ->middleware(['auth', 'admin'])
+        ->name('admin.faq.edit');
+
+    Route::post('/admin/faqs/update/{id}', [FaqController::class, 'update'])
+        ->middleware(['auth', 'admin'])
+        ->name('admin.faq.update');
+
+    Route::get('/admin/faqs/delete/{id}', [FaqController::class, 'delete'])
+        ->middleware(['auth', 'admin'])
+        ->name('admin.faq.delete');
 
     /*
     |--------------------------------------------------------------------------
@@ -176,6 +224,14 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/customers', [CustomerController::class, 'index'])
         ->middleware(['auth', 'admin'])
         ->name('admin.customer.index');
+
+    Route::get('/admin/users/make-admin/{id}', [CustomerController::class, 'makeAdmin'])
+        ->middleware(['auth', 'admin'])
+        ->name('admin.user.makeAdmin');
+
+    Route::get('/admin/users/make-customer/{id}', [CustomerController::class, 'makeCustomer'])
+        ->middleware(['auth', 'admin'])
+        ->name('admin.user.makeCustomer');
 
     Route::get('/admin/reviews', [AdminReviewController::class, 'index'])
         ->middleware(['auth', 'admin'])

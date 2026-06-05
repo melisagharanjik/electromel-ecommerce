@@ -32,6 +32,18 @@ class HomeController extends Controller
             $query->where('price', '<=', $request->max_price);
         }
 
+        if ($request->filled('sort')) {
+            if ($request->sort == 'newest') {
+                $query->latest();
+            } elseif ($request->sort == 'price_low') {
+                $query->orderBy('price', 'asc');
+            } elseif ($request->sort == 'price_high') {
+                $query->orderBy('price', 'desc');
+            }
+        } else {
+            $query->latest();
+        }
+
         $products = $query->paginate(6)->appends($request->query());
 
         $categories = Category::all();

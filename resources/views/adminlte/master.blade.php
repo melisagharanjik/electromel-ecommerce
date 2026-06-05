@@ -63,6 +63,18 @@
                     </li>
 
                     <li class="nav-item">
+                        <a href="{{ route('admin.contact-message.index') }}" class="nav-link">
+                            <p>Contact Messages</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ route('admin.faq.index') }}" class="nav-link">
+                            <p>FAQ</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
                         <a href="{{ route('admin.customer.index') }}" class="nav-link">
                             <p>Customers</p>
                         </a>
