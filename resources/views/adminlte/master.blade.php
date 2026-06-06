@@ -6,6 +6,7 @@
     <title>Admin Panel</title>
 
     <link rel="stylesheet" href="{{ asset('admin/css/adminlte.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
@@ -45,61 +46,61 @@
 
                     <li class="nav-item">
                         <a href="{{ route('admin.dashboard') }}" class="nav-link">
-                            <p>Dashboard</p>
+                            <p><i class="fa-solid fa-gauge me-2"></i> Dashboard</p>
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a href="{{ route('home') }}" class="nav-link">
-                            <p>Homepage</p>
+                            <p><i class="fa-solid fa-house me-2"></i> Homepage</p>
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a href="{{ route('admin.category.index') }}" class="nav-link">
-                            <p>Categories</p>
+                            <p><i class="fa-solid fa-tags me-2"></i> Categories</p>
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a href="{{ route('admin.product.index') }}" class="nav-link">
-                            <p>Products</p>
+                            <p><i class="fa-solid fa-box me-2"></i> Products</p>
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a href="{{ route('admin.order.index') }}" class="nav-link">
-                            <p>Orders</p>
+                            <p><i class="fa-solid fa-cart-shopping me-2"></i> Orders</p>
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a href="{{ route('admin.review.index') }}" class="nav-link">
-                            <p>Reviews</p>
+                            <p><i class="fa-solid fa-star me-2"></i> Reviews</p>
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a href="{{ route('admin.contact-message.index') }}" class="nav-link">
-                            <p>Contact Messages</p>
+                            <p><i class="fa-solid fa-envelope me-2"></i> Contact Messages</p>
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a href="{{ route('admin.faq.index') }}" class="nav-link">
-                            <p>FAQ</p>
+                            <p><i class="fa-solid fa-circle-question me-2"></i> FAQ</p>
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a href="{{ route('admin.setting.index') }}" class="nav-link">
-                            <p>Settings</p>
+                            <p><i class="fa-solid fa-gear me-2"></i> Settings</p>
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a href="{{ route('admin.customer.index') }}" class="nav-link">
-                            <p>Customers</p>
+                            <p><i class="fa-solid fa-users me-2"></i> Customers</p>
                         </a>
                     </li>
 
@@ -109,7 +110,7 @@
                                 @csrf
 
                                 <button type="submit" class="nav-link btn btn-link text-start w-100">
-                                    <p>Logout</p>
+                                    <p><i class="fa-solid fa-right-from-bracket me-2"></i> Logout</p>
                                 </button>
                             </form>
                         </li>
