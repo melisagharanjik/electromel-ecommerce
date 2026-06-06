@@ -135,6 +135,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
         $pendingReviews = \App\Models\Review::where('status', 'Pending')->count();
 
         $contactMessageCount = \App\Models\ContactMessage::count();
+        $unreadContactMessageCount = \App\Models\ContactMessage::where('status', 'Unread')->count();
         $faqCount = \App\Models\Faq::count();
 
         return view('admin.dashboard', compact(
@@ -151,7 +152,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
             'reviewCount',
             'pendingReviews',
             'contactMessageCount',
-            'faqCount'
+            'faqCount',
+            'unreadContactMessageCount',
         ));
 
     })->middleware(['auth', 'admin'])->name('admin.dashboard');
@@ -160,9 +162,17 @@ Route::middleware(['auth', 'admin'])->group(function () {
         ->middleware(['auth', 'admin'])
         ->name('admin.contact-message.index');
 
+    Route::get('/admin/contact-messages/show/{id}', [ContactMessageController::class, 'show'])
+        ->middleware(['auth', 'admin'])
+        ->name('admin.contact-message.show');
+
     Route::get('/admin/contact-messages/delete/{id}', [ContactMessageController::class, 'delete'])
         ->middleware(['auth', 'admin'])
         ->name('admin.contact-message.delete');
+
+    Route::get('/admin/contact-messages/mark-all-read', [ContactMessageController::class, 'markAllRead'])
+        ->middleware(['auth', 'admin'])
+        ->name('admin.contact-message.markAllRead');
 
     Route::get('/admin/faqs', [FaqController::class, 'index'])
         ->middleware(['auth', 'admin'])

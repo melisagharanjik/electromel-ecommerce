@@ -27,6 +27,19 @@
                 </li>
             </ul>
 
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                <span class="nav-link">
+                    <i class="fa-solid fa-user-shield me-1"></i>
+                    Logged in as:
+                    <strong>{{ auth()->user()->name }}</strong>
+                    <span class="badge text-bg-primary ms-1">
+                        {{ auth()->user()->role }}
+                    </span>
+                </span>
+                </li>
+            </ul>
+
         </div>
     </nav>
 
@@ -82,7 +95,19 @@
 
                     <li class="nav-item">
                         <a href="{{ route('admin.contact-message.index') }}" class="nav-link">
-                            <p><i class="fa-solid fa-envelope me-2"></i> Contact Messages</p>
+                            <p>
+                                <i class="fa-solid fa-envelope me-2"></i> Contact Messages
+
+                                @php
+                                    $sidebarUnreadMessages = \App\Models\ContactMessage::where('status', 'Unread')->count();
+                                @endphp
+
+                                @if($sidebarUnreadMessages > 0)
+                                    <span class="badge bg-danger ms-2">
+            {{ $sidebarUnreadMessages }}
+        </span>
+                                @endif
+                            </p>
                         </a>
                     </li>
 

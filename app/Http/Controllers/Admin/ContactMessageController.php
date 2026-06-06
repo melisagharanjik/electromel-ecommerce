@@ -14,6 +14,24 @@ class ContactMessageController extends Controller
         return view('admin.contact-message.index', compact('messages'));
     }
 
+    public function show($id)
+    {
+        $message = ContactMessage::findOrFail($id);
+
+        $message->status = 'Read';
+        $message->save();
+
+        return view('admin.contact-message.show', compact('message'));
+    }
+
+    public function markAllRead()
+    {
+        ContactMessage::where('status', 'Unread')
+            ->update(['status' => 'Read']);
+
+        return redirect()->route('admin.contact-message.index');
+    }
+
     public function delete($id)
     {
         $message = ContactMessage::findOrFail($id);
