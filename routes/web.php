@@ -94,6 +94,18 @@ Route::get('/faq', function () {
     return view('front.faq', compact('faqs'));
 })->name('faq');
 
+Route::get('/about-us', function () {
+    return view('front.about');
+})->name('about');
+
+Route::get('/privacy-policy', function () {
+    return view('front.privacy');
+})->name('privacy');
+
+Route::get('/terms-conditions', function () {
+    return view('front.terms');
+})->name('terms');
+
 /*
 |--------------------------------------------------------------------------
 | Admin Routes
@@ -175,6 +187,15 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/faqs/delete/{id}', [FaqController::class, 'delete'])
         ->middleware(['auth', 'admin'])
         ->name('admin.faq.delete');
+
+    Route::view('/about', 'front.about')
+        ->name('about');
+
+    Route::view('/privacy-policy', 'front.privacy')
+        ->name('privacy');
+
+    Route::view('/terms-conditions', 'front.terms')
+        ->name('terms');
 
     Route::get('/admin/settings', [SettingController::class, 'index'])
         ->middleware(['auth', 'admin'])

@@ -88,6 +88,24 @@
 
                 </table>
 
+                <div class="mt-3">
+                    @if($data->previousPageUrl())
+                        <a href="{{ $data->previousPageUrl() }}" class="btn btn-secondary btn-sm">
+                            Previous
+                        </a>
+                    @endif
+
+                    <span style="margin: 0 10px;">
+                        Page {{ $data->currentPage() }} of {{ $data->lastPage() }}
+                    </span>
+
+                    @if($data->nextPageUrl())
+                        <a href="{{ $data->nextPageUrl() }}" class="btn btn-primary btn-sm">
+                            Next
+                        </a>
+                    @endif
+                </div>
+
             </div>
 
         </div>

@@ -118,14 +118,12 @@
             <!-- row -->
             <div class="row">
                 <!-- LOGO -->
-                <div class="col-md-3">
-                    <div class="header-logo">
-                        <a href="#" class="logo">
-                            <img src="{{ asset('img/electromel-logo.png') }}"
-                                 alt="ElectroMel"
-                                 width="250">
-                        </a>
-                    </div>
+                <div class="header-logo">
+                    <a href="#">
+                        <h2 style="color:white;font-weight:bold;">
+                            Electro<span style="color:#D10024;">Mel</span>
+                        </h2>
+                    </a>
                 </div>
                 <!-- /LOGO -->
 
@@ -588,11 +586,11 @@
                     <div class="footer">
                         <h3 class="footer-title">Information</h3>
                         <ul class="footer-links">
-                            <li><a href="#">About Us</a></li>
+                            <li><a href="{{ route('about') }}">About Us</a></li>
                             <li><a href="{{ route('faq') }}">FAQ</a></li>
                             <li><a href="{{ route('contact') }}">Contact Us</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Terms & Conditions</a></li>
+                            <li><a href="{{ route('privacy') }}">Privacy Policy</a></li>
+                            <li><a href="{{ route('terms') }}">Terms & Conditions</a></li>
                         </ul>
                     </div>
                 </div>
@@ -601,11 +599,11 @@
                     <div class="footer">
                         <h3 class="footer-title">Service</h3>
                         <ul class="footer-links">
-                            <li><a href="#">My Account</a></li>
+                            <li><a href="{{ route('profile.edit') }}">My Account</a></li>
                             <li><a href="{{ route('cart.index') }}">View Cart</a></li>
-                            <li><a href="#">Wishlist</a></li>
-                            <li><a href="#">Track My Order</a></li>
-                            <li><a href="#">Help</a></li>
+                            <li><a href="{{ route('wishlist.index') }}">Wishlist</a></li>
+                            <li><a href="{{ route('my.orders') }}">Track My Order</a></li>
+                            <li><a href="{{ route('faq') }}">Help</a></li>
                         </ul>
                     </div>ّ
                 </div>
