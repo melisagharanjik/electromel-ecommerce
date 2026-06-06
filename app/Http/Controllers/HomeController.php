@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Models\Setting;
 
 class HomeController extends Controller
 {
@@ -48,7 +49,9 @@ class HomeController extends Controller
 
         $categories = Category::all();
 
-        return view('front.home', compact('products', 'categories'));
+        $setting = Setting::first();
+
+        return view('front.home', compact('products', 'categories', 'setting'));
     }
 
     public function productDetail($id)

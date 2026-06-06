@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    <title>Electro - HTML Ecommerce Template</title>
+    <title>ElectroMel - Ecommerce Store</title>
 
     <!-- Google font -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
@@ -50,9 +50,9 @@
     <div id="top-header">
         <div class="container">
             <ul class="header-links pull-left">
-                <li><a href="#"><i class="fa fa-phone"></i> +021-95-51-84</a></li>
-                <li><a href="#"><i class="fa fa-envelope-o"></i> email@email.com</a></li>
-                <li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
+                <li><a href="#"><i class="fa fa-phone"></i> {{ $setting->phone ?? '' }}</a></li>
+                <li><a href="#"><i class="fa fa-envelope-o"></i> {{ $setting->email ?? '' }}</a></li>
+                <li><a href="#"><i class="fa fa-map-marker"></i> {{ $setting->address ?? '' }}</a></li>
             </ul>
             <ul class="header-links pull-right">
 
@@ -121,7 +121,9 @@
                 <div class="col-md-3">
                     <div class="header-logo">
                         <a href="#" class="logo">
-                            <img src="./img/logo.png" alt="">
+                            <img src="{{ asset('img/electromel-logo.png') }}"
+                                 alt="ElectroMel"
+                                 width="250">
                         </a>
                     </div>
                 </div>
@@ -543,9 +545,26 @@
                         <h3 class="footer-title">About Us</h3>
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut.</p>
                         <ul class="footer-links">
-                            <li><a href="#"><i class="fa fa-map-marker"></i>1734 Stonecoal Road</a></li>
-                            <li><a href="#"><i class="fa fa-phone"></i>+021-95-51-84</a></li>
-                            <li><a href="#"><i class="fa fa-envelope-o"></i>email@email.com</a></li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-map-marker"></i>
+                                    {{ $setting->address ?? '' }}
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-phone"></i>
+                                    {{ $setting->phone ?? '' }}
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-envelope-o"></i>
+                                    {{ $setting->email ?? '' }}
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>

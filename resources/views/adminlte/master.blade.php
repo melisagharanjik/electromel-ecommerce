@@ -75,6 +75,12 @@
                     </li>
 
                     <li class="nav-item">
+                        <a href="{{ route('admin.setting.index') }}" class="nav-link">
+                            <p>Settings</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
                         <a href="{{ route('admin.customer.index') }}" class="nav-link">
                             <p>Customers</p>
                         </a>

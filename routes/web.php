@@ -15,6 +15,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Admin\ContactMessageController;
 use App\Http\Controllers\Admin\FaqController;
 use App\Models\Faq;
+use App\Http\Controllers\Admin\SettingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -105,15 +106,24 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
         $categoryCount = \App\Models\Category::count();
         $productCount = \App\Models\Product::count();
-
         $orderCount = \App\Models\Order::count();
 
         $pendingOrders = \App\Models\Order::where('status', 'Pending')->count();
-
         $completedOrders = \App\Models\Order::where('status', 'Completed')->count();
+        $cancelledOrders = \App\Models\Order::where('status', 'Cancelled')->count();
 
         $totalRevenue = \App\Models\OrderItem::selectRaw('SUM(price * quantity) as total')
             ->value('total');
+
+        $userCount = \App\Models\User::count();
+        $customerCount = \App\Models\User::where('role', 'customer')->count();
+        $adminCount = \App\Models\User::where('role', 'admin')->count();
+
+        $reviewCount = \App\Models\Review::count();
+        $pendingReviews = \App\Models\Review::where('status', 'Pending')->count();
+
+        $contactMessageCount = \App\Models\ContactMessage::count();
+        $faqCount = \App\Models\Faq::count();
 
         return view('admin.dashboard', compact(
             'categoryCount',
@@ -121,10 +131,18 @@ Route::middleware(['auth', 'admin'])->group(function () {
             'orderCount',
             'pendingOrders',
             'completedOrders',
-            'totalRevenue'
+            'cancelledOrders',
+            'totalRevenue',
+            'userCount',
+            'customerCount',
+            'adminCount',
+            'reviewCount',
+            'pendingReviews',
+            'contactMessageCount',
+            'faqCount'
         ));
 
-    })->name('admin.dashboard');
+    })->middleware(['auth', 'admin'])->name('admin.dashboard');
 
     Route::get('/admin/contact-messages', [ContactMessageController::class, 'index'])
         ->middleware(['auth', 'admin'])
@@ -157,6 +175,14 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/faqs/delete/{id}', [FaqController::class, 'delete'])
         ->middleware(['auth', 'admin'])
         ->name('admin.faq.delete');
+
+    Route::get('/admin/settings', [SettingController::class, 'index'])
+        ->middleware(['auth', 'admin'])
+        ->name('admin.setting.index');
+
+    Route::post('/admin/settings/update', [SettingController::class, 'update'])
+        ->middleware(['auth', 'admin'])
+        ->name('admin.setting.update');
 
     /*
     |--------------------------------------------------------------------------
