@@ -60,33 +60,38 @@
 
                 @auth
 
-                    @if(auth()->user()->role == 'admin')
 
                         <li>
-                            <a href="{{ route('admin.dashboard') }}">
-                                <i class="fa fa-dashboard"></i> Admin Panel
+                            <a href="{{ route('profile.edit') }}">
+                                <i class="fa fa-user"></i> Profile
                             </a>
                         </li>
 
-                    @else
+                        @if(auth()->user()->role == 'customer')
+                            <li>
+                                <a href="{{ route('my.orders') }}">
+                                    <i class="fa fa-shopping-bag"></i> My Orders
+                                </a>
+                            </li>
+                        @endif
+
+                        @if(auth()->user()->role == 'admin')
+                            <li>
+                                <a href="{{ route('admin.dashboard') }}">
+                                    <i class="fa fa-dashboard"></i> Admin Panel
+                                </a>
+                            </li>
+                        @endif
 
                         <li>
-                            <a href="{{ route('my.orders') }}">
-                                <i class="fa fa-user-o"></i> My Orders
-                            </a>
+                            <form action="{{ route('logout') }}" method="post" style="display:inline;">
+                                @csrf
+
+                                <button type="submit" style="background:none; border:none; color:#FFF;">
+                                    <i class="fa fa-sign-out"></i> Logout
+                                </button>
+                            </form>
                         </li>
-
-                    @endif
-
-                    <li>
-                        <form action="{{ route('logout') }}" method="post" style="display:inline;">
-                            @csrf
-
-                            <button type="submit" style="background:none; border:none; color:#FFF;">
-                                <i class="fa fa-sign-out"></i> Logout
-                            </button>
-                        </form>
-                    </li>
 
                 @endauth
 
